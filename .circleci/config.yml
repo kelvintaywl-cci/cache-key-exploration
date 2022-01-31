@@ -1,0 +1,23 @@
+version: 2.1
+
+jobs:
+  explore_checkoutkey:
+    docker:
+    - image: cimg/node:14.18
+    resource_class: small
+    working_directory: ~/app
+    steps:
+#     - run:
+#         command: echo 'export ENV=test' >> $BASH_ENV
+#         name: Set environment to 'test'
+    - checkout
+    - save_cache:
+        key: ssh_git-{{ .CheckoutKey }}
+        paths:
+        - ~/.ssh
+        - ~/.gitconfig
+
+workflows:
+  main:
+    jobs:
+      - explore_checkoutkey
